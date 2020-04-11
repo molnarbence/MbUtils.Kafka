@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Kafka message producer - JSON message creator</Title>
+    <Authors>molnarbence</Authors>
+    <Description>JSON format message creator</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/molnarbence/MbUtils.Kafka.Producing</PackageProjectUrl>
+    <PackageTags>mbutils;kafka;producer</PackageTags>
+    <RepositoryUrl>https://github.com/molnarbence/MbUtils.Kafka.Producing</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MbUtils.Kafka.Producing\MbUtils.Kafka.Producing.csproj" />
+  </ItemGroup>
+
+</Project>

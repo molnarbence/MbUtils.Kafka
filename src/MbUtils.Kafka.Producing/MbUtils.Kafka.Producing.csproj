@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Kafka message producer</Title>
+    <Authors>molnarbence</Authors>
+    <Description>Use this package to create a new message creator.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/molnarbence/MbUtils.Kafka.Producing</PackageProjectUrl>
+    <PackageTags>mbutils;kafka;producer</PackageTags>
+    <RepositoryUrl>https://github.com/molnarbence/MbUtils.Kafka.Producing</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MbUtils.Kafka.Producing.Abstractions\MbUtils.Kafka.Producing.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

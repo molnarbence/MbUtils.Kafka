@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Kafka consumer host</Title>
+    <Authors>molnarbence</Authors>
+    <Description>Kafka consumer host library to easily bootstrap a new app.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/molnarbence/MbUtils.Kafka.Consuming</PackageProjectUrl>
+    <PackageTags>mbutils;kafka;consumer</PackageTags>
+    <RepositoryUrl>https://github.com/molnarbence/MbUtils.Kafka.Consuming</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+
+</Project>
