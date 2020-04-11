@@ -30,9 +30,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		azure-pipelines.yml = azure-pipelines.yml
+		docker-compose.yml = docker-compose.yml
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MbUtils.Kafka.Tool", "src\MbUtils.Kafka.Tool\MbUtils.Kafka.Tool.csproj", "{01EDCEB6-9136-419A-B971-E51C2FF57A1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,6 +143,18 @@ Global
 		{7CA11F37-109F-4156-A148-1A8AD35FDE8E}.Release|x64.Build.0 = Release|Any CPU
 		{7CA11F37-109F-4156-A148-1A8AD35FDE8E}.Release|x86.ActiveCfg = Release|Any CPU
 		{7CA11F37-109F-4156-A148-1A8AD35FDE8E}.Release|x86.Build.0 = Release|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Debug|x64.Build.0 = Debug|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Debug|x86.Build.0 = Debug|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Release|x64.ActiveCfg = Release|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Release|x64.Build.0 = Release|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Release|x86.ActiveCfg = Release|Any CPU
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +168,7 @@ Global
 		{61FE1A7A-A456-496E-9259-857090BCAA1B} = {F6B2B80B-B281-4671-9DA1-F96A4055D2BA}
 		{AED52F81-E440-4C2B-9CD6-F8D416AB25E8} = {F6B2B80B-B281-4671-9DA1-F96A4055D2BA}
 		{7CA11F37-109F-4156-A148-1A8AD35FDE8E} = {D4E8A590-F690-4C9B-96DA-325178FD249F}
+		{01EDCEB6-9136-419A-B971-E51C2FF57A1A} = {8482140C-59D7-434E-8C0F-6617688EB0DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3AABB195-708D-4628-87E3-767EB4CEE8B5}

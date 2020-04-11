@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MbUtils.Kafka.Tool": {
+      "commandName": "Project",
+      "commandLineArgs": "produce"
+    }
+  }
+}
