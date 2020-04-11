@@ -16,41 +16,38 @@ container: mcr.microsoft.com/dotnet/core/sdk:3.1
 variables:
   buildConfiguration: 'Release'
 
-jobs:
-  - job: dotnetjob
-    displayName: 'dotnet job'
-    steps:
-    - script: | 
-        dotnet build --configuration $(buildConfiguration)
-        dotnet test --configuration $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include=[MbUtils.*]*
-      displayName: 'dotnet build&test $(buildConfiguration)'
+steps:
+  - script: | 
+      dotnet build --configuration $(buildConfiguration)
+      dotnet test --configuration $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include=[MbUtils.*]*
+    displayName: 'dotnet build&test $(buildConfiguration)'
 
-    - task: PublishTestResults@2
-      condition: succeededOrFailed()
-      inputs:
-        testRunner: VSTest
-        testResultsFiles: '**/*.trx'
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
 
-    # Below are for tags branch only
-    # conditioned with: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  # Below are for tags branch only
+  # conditioned with: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
 
-    - script: |
-        VERSION=$(echo $(Build.SourceBranch) | sed -e 's,.*/\(.*\),\1,')
-        VERSION=$(echo $VERSION | sed -e 's/^v//')
-        dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) -p:PackageVersion=$VERSION
-      displayName: "dotnet pack"
-      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  - script: |
+      VERSION=$(echo $(Build.SourceBranch) | sed -e 's,.*/\(.*\),\1,')
+      VERSION=$(echo $VERSION | sed -e 's/^v//')
+      dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) -p:PackageVersion=$VERSION
+    displayName: "dotnet pack"
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        artifactName: drop
-      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: drop
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
 
-    - task: NuGetCommand@2
-      displayName: 'nuget push'
-      inputs:
-        command: push
-        nuGetFeedType: external
-        publishFeedCredentials: 'nuget_mbutils_kafka'
-      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  - task: NuGetCommand@2
+    displayName: 'nuget push'
+    inputs:
+      command: push
+      nuGetFeedType: external
+      publishFeedCredentials: 'nuget_mbutils_kafka'
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
