@@ -30,10 +30,12 @@ steps:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
 
-  - script: echo "api key $(API_KEY)"
+  - script: | 
+      echo "as secret: $(nugetApiKey)"
+      echo "as variable: $NUGETAPIKEY"
     displayName: 'Test api key'
     env:
-      API_KEY: $(nugetApiKey)
+      NUGETAPIKEY: $(nugetApiKey)
 
   # Below are for tags branch only
   # conditioned with: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
@@ -42,6 +44,8 @@ steps:
       VERSION=$(echo $(Build.SourceBranch) | sed -e 's,.*/\(.*\),\1,')
       VERSION=$(echo $VERSION | sed -e 's/^v//')
       dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) -p:PackageVersion=$VERSION
-      dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg -s https://api.nuget.org/v3/index.json -k (nugetApiKey)
+      dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg -s https://api.nuget.org/v3/index.json -k $NUGETAPIKEY
     displayName: "dotnet pack & push"
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+    env:
+      NUGETAPIKEY: $(nugetApiKey)
