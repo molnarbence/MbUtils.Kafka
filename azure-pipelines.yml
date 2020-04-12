@@ -44,7 +44,7 @@ steps:
       VERSION=$(echo $(Build.SourceBranch) | sed -e 's,.*/\(.*\),\1,')
       VERSION=$(echo $VERSION | sed -e 's/^v//')
       dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) -p:PackageVersion=$VERSION
-      dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg -s https://api.nuget.org/v3/index.json -k $NUGETAPIKEY
+      dotnet nuget push $(Build.ArtifactStagingDirectory)/**/*.nupkg -s https://api.nuget.org/v3/index.json -k $NUGETAPIKEY --no-symbols=true
     displayName: "dotnet pack & push"
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
     env:
