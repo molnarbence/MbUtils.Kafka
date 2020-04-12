@@ -30,10 +30,10 @@ steps:
   #     testRunner: VSTest
   #     testResultsFiles: '**/*.trx'
 
-  - script: echo "api key $(nugetApiKey)"
+  - script: echo "api key $(nugetApiKey) $NUGETAPIKEY"
     displayName: 'Test api key'
     env:
-      NUGET_API_KEY: $(nugetApiKey)
+      NUGETAPIKEY: $(nugetApiKey)
 
   # Below are for tags branch only
   # conditioned with: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
