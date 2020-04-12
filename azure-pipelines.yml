@@ -19,21 +19,21 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-  - script: | 
-      dotnet build --configuration $(buildConfiguration)
-      dotnet test --configuration $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include=[MbUtils.*]*
-    displayName: 'dotnet build&test $(buildConfiguration)'
+  # - script: | 
+  #     dotnet build --configuration $(buildConfiguration)
+  #     dotnet test --configuration $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include=[MbUtils.*]*
+  #   displayName: 'dotnet build&test $(buildConfiguration)'
 
-  - task: PublishTestResults@2
-    condition: succeededOrFailed()
-    inputs:
-      testRunner: VSTest
-      testResultsFiles: '**/*.trx'
+  # - task: PublishTestResults@2
+  #   condition: succeededOrFailed()
+  #   inputs:
+  #     testRunner: VSTest
+  #     testResultsFiles: '**/*.trx'
 
-  - script: echo "api key $(API_KEY)"
+  - script: echo "api key $(NUGET_API_KEY)"
     displayName: 'Test api key'
     env:
-      API_KEY: $(nugetApiKey)
+      NUGET_API_KEY: $(nugetApiKey)
 
   # Below are for tags branch only
   # conditioned with: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
