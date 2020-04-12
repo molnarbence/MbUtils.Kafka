@@ -40,14 +40,8 @@ steps:
     displayName: "dotnet pack"
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: drop
-    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-
-  - task: NuGetCommand@2
-    displayName: 'nuget push'
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet push'
     inputs:
       command: push
       nuGetFeedType: external
