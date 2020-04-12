@@ -30,6 +30,11 @@ steps:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
 
+  - script: echo "api key $(API_KEY)"
+    displayName: 'Test api key'
+    env:
+      API_KEY: $(nugetApiKey)
+
   # Below are for tags branch only
   # conditioned with: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
 
@@ -37,13 +42,6 @@ steps:
       VERSION=$(echo $(Build.SourceBranch) | sed -e 's,.*/\(.*\),\1,')
       VERSION=$(echo $VERSION | sed -e 's/^v//')
       dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) -p:PackageVersion=$VERSION
-    displayName: "dotnet pack"
-    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-
-  - task: DotNetCoreCLI@2
-    displayName: 'dotnet push'
-    inputs:
-      command: push
-      nuGetFeedType: external
-      publishFeedCredentials: 'nuget_mbutils_kafka'
+      dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg -s https://api.nuget.org/v3/index.json -k (nugetApiKey)
+    displayName: "dotnet pack & push"
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
