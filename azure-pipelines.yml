@@ -30,7 +30,7 @@ steps:
   #     testRunner: VSTest
   #     testResultsFiles: '**/*.trx'
 
-  - script: echo "api key $(NUGET_API_KEY)"
+  - script: echo "api key $(nugetApiKey)"
     displayName: 'Test api key'
     env:
       NUGET_API_KEY: $(nugetApiKey)
