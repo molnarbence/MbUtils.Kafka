@@ -19,7 +19,7 @@ namespace MbUtils.Kafka.Tool
             .AddSingleton<IReporter, ConsoleReporter>())
             .AddConfig<KafkaServiceConfig>(nameof(KafkaService));
 
-         return wrapper.Execute();
+         return wrapper.ExecuteAsync();
       }
 
       public int OnExecute(CommandLineApplication app, IConsole console)
