@@ -18,7 +18,7 @@ namespace MbUtils.Kafka.Consuming
       private readonly ILogger<ConsumerHostedService<TMessage>> _logger;
       private readonly IServiceProvider _serviceProvider;
 
-      internal ConsumerHostedService(
+      public ConsumerHostedService(
          IOptions<KafkaConsumerConfig> kafkaConsumerConfig, 
          ILogger<ConsumerHostedService<TMessage>> logger,
          IServiceProvider serviceProvider)
