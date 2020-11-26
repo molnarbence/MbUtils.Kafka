@@ -17,6 +17,7 @@ namespace MbUtils.Kafka.Consuming
       private readonly string _topic;
       private readonly ILogger<ConsumerHostedService<TMessage>> _logger;
       private readonly IServiceProvider _serviceProvider;
+      private readonly int _delayMs;
 
       public ConsumerHostedService(
          IOptions<KafkaConsumerConfig> kafkaConsumerConfig, 
@@ -46,40 +47,46 @@ namespace MbUtils.Kafka.Consuming
          _topic = val.Topic;
          _logger = logger;
          _serviceProvider = serviceProvider;
+         _delayMs = val.DelayMs;
       }
       protected override async Task ExecuteAsync(CancellationToken stoppingToken)
       {
+         if (_delayMs > 0)
+         {
+            _logger.LogInformation("Delaying consuming by {0} milliseconds", _delayMs);
+            await Task.Delay(_delayMs);
+         }
          await ConsumerLoopAsync(stoppingToken);
       }
 
       private async Task ConsumerLoopAsync(CancellationToken stoppingToken)
       {
-         using (var c = new ConsumerBuilder<Ignore, string>(_consumerConfig).Build())
+         using var c = new ConsumerBuilder<Ignore, string>(_consumerConfig).Build();
+
+         _logger.LogInformation("Subscribing to topic {0}", _topic);
+         c.Subscribe(_topic);
+         _logger.LogInformation("Subscribed to topic {0}", _topic);
+
+         stoppingToken.Register(() => _logger.LogDebug("{0} is stopping", nameof(ConsumerHostedService<TMessage>)));
+
+
+         while (!stoppingToken.IsCancellationRequested)
          {
-            c.Subscribe(_topic);
-            _logger.LogInformation("Subscribed to topic {0}", _topic);
-
-            stoppingToken.Register(() => _logger.LogDebug("{0} is stopping", nameof(ConsumerHostedService<TMessage>)));
-
-
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-               try
-               {
-                  await ConsumeAsync(c, stoppingToken);
-               }
-               catch (ConsumeException ex)
-               {
-                  _logger.LogError(ex, "Error occured");
-               }
-               catch (OperationCanceledException)
-               {
-                  break;
-               }
+               await ConsumeAsync(c, stoppingToken);
             }
-
-            c.Close();
+            catch (ConsumeException ex)
+            {
+               _logger.LogError(ex, "Error occured");
+            }
+            catch (OperationCanceledException)
+            {
+               break;
+            }
          }
+
+         c.Close();
       }
 
       private async Task ConsumeAsync(IConsumer<Ignore, string> consumer, CancellationToken stoppingToken)
@@ -87,12 +94,10 @@ namespace MbUtils.Kafka.Consuming
          var result = await Task.Run(() => consumer.Consume(stoppingToken));
          if(result != null)
          {
-            using (var scope = _serviceProvider.CreateScope())
-            {
-               var messageConsumer = scope.ServiceProvider.GetService<IMessageConsumer<TMessage>>();
-               var body = JsonConvert.DeserializeObject<TMessage>(result.Message.Value);
-               await messageConsumer.OnMessageAsync(body);
-            }
+            using var scope = _serviceProvider.CreateScope();
+            var messageConsumer = scope.ServiceProvider.GetService<IMessageConsumer<TMessage>>();
+            var body = JsonConvert.DeserializeObject<TMessage>(result.Message.Value);
+            await messageConsumer.OnMessageAsync(body);
          }
       }
    }

@@ -6,5 +6,6 @@
       public string BootstrapServers { get; set; }
       public string AutoOffsetReset { get; set; }
       public string Topic { get; set; }
+      public int DelayMs { get; set; }
    }
 }
