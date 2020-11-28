@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -96,7 +96,7 @@ namespace MbUtils.Kafka.Consuming
          {
             using var scope = _serviceProvider.CreateScope();
             var messageConsumer = scope.ServiceProvider.GetService<IMessageConsumer<TMessage>>();
-            var body = JsonConvert.DeserializeObject<TMessage>(result.Message.Value);
+            var body = JsonSerializer.Deserialize<TMessage>(result.Message.Value);
             await messageConsumer.OnMessageAsync(body);
          }
       }

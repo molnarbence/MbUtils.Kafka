@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using Newtonsoft.Json;
 
 namespace MbUtils.Kafka.Tool
 {
@@ -40,7 +40,7 @@ namespace MbUtils.Kafka.Tool
 
       private Task ProduceTestContent(string topic)
       {
-         var testContent = JsonConvert.SerializeObject(new { Foo = new DateTime() });
+         var testContent = JsonSerializer.Serialize(new { Foo = new DateTime() });
          return ProduceContentInternal(topic, testContent);
       }
 
