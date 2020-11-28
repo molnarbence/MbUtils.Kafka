@@ -37,5 +37,11 @@ namespace MbUtils.Kafka.Producing
             _loggerFactory.CreateLogger<MessageProducer<TValue>>());
          return ret;
       }
+
+      public void Dispose()
+      {
+         _kafkaProducer.Flush();
+         _kafkaProducer.Dispose();
+      }
    }
 }
