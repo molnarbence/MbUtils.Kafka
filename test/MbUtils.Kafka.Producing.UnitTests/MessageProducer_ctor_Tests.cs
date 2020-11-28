@@ -5,11 +5,11 @@ namespace MbUtils.Kafka.Producing.UnitTests
 {
    public class MessageProducer_ctor_Tests : MessageProducerTestBase
    {
-      [Fact(DisplayName = "When input producer is null, then throw an exception")]
+      [Fact(DisplayName = "When input producerFactory is null, then throw an exception")]
       public void When_producer_is_null_Throw_exception()
       {
          // act
-         Assert.Throws<ArgumentNullException>("kafkaProducer", () =>
+         Assert.Throws<ArgumentNullException>("producerFactory", () =>
          {
             new MessageProducer<string>(
                    null,
@@ -25,7 +25,7 @@ namespace MbUtils.Kafka.Producing.UnitTests
          Assert.Throws<ArgumentNullException>("messageCreator", () =>
          {
             new MessageProducer<string>(
-                   _kafkaProducerMock.Object,
+                   _producerFactoryMock.Object,
                    null,
                    _loggerMock.Object);
          });
@@ -38,7 +38,7 @@ namespace MbUtils.Kafka.Producing.UnitTests
          Assert.Throws<ArgumentNullException>("logger", () =>
          {
             new MessageProducer<string>(
-                   _kafkaProducerMock.Object,
+                   _producerFactoryMock.Object,
                    _messageCreatorMock.Object,
                    null);
          });

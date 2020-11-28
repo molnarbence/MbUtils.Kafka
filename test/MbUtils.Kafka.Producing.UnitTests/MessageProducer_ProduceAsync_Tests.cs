@@ -11,20 +11,20 @@ namespace MbUtils.Kafka.Producing.UnitTests
    public class MessageProducer_ProduceAsync_Tests : MessageProducerMethodsTestBase
    {
       [Fact(DisplayName = "KafkaProducer is called with message from MessageCreator")]
-      public async Task KafkaProducer_gets_MessageCreator_s_message()
+      public void KafkaProducer_gets_MessageCreator_s_message()
       {
          // arrange
          var topic = "Test topic";
          var message = "test message";
 
          // act
-         await _messageProducer.ProduceAsync(topic, message);
+         _messageProducer.Produce(topic, message);
 
          // assert
-         _kafkaProducerMock.Verify(x => x.ProduceAsync(
+         _kafkaProducerMock.Verify(x => x.Produce(
             "Test topic",
             It.Is<Message<Null, string>>(y => y.Value == message),
-            default
+            It.IsAny<Action<DeliveryReport<Null, string>>>()
             ));
       }
 
