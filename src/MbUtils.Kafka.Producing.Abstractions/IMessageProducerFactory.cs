@@ -1,6 +1,8 @@
-﻿namespace MbUtils.Kafka.Producing
+﻿using System;
+
+namespace MbUtils.Kafka.Producing
 {
-   public interface IMessageProducerFactory
+   public interface IMessageProducerFactory : IDisposable
    {
       IMessageProducer Create();
    }

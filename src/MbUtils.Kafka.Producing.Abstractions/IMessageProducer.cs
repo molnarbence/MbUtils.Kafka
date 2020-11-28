@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace MbUtils.Kafka.Producing
 {
-   public interface IMessageProducer : IDisposable
+   public interface IMessageProducer
    {
       Task ProduceAsync(string topic, object body);
       void Produce(string topic, object body);

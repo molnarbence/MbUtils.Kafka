@@ -1,5 +1,5 @@
 ﻿using Confluent.Kafka;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace MbUtils.Kafka.Producing
 {
@@ -7,7 +7,7 @@ namespace MbUtils.Kafka.Producing
    {
       public Message<Null, string> CreateMessage(object body)
       {
-         return new Message<Null, string> { Value = JsonConvert.SerializeObject(body) };
+         return new Message<Null, string> { Value = JsonSerializer.Serialize(body) };
       }
    }
 }

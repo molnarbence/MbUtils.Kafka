@@ -49,12 +49,7 @@ namespace MbUtils.Kafka.Producing
 
       private void DeliveryHandler(DeliveryReport<Null, TValue> obj)
       {
-         
-      }
-
-      public void Dispose()
-      {
-         _kafkaProducer.Dispose();
+         // DO NOTHING
       }
    }
 }
