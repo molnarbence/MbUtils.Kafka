@@ -33,6 +33,25 @@ namespace MbUtils.Kafka.Producing
          }
       }
 
+      public void Produce(string topic, object body)
+      {
+         try
+         {
+            var message = _messageCreator.CreateMessage(body);
+            _kafkaProducer.Produce(topic, message, DeliveryHandler);
+         }
+         catch (Exception ex)
+         {
+            _logger.LogError(ex, nameof(Produce));
+            throw ex;
+         }
+      }
+
+      private void DeliveryHandler(DeliveryReport<Null, TValue> obj)
+      {
+         
+      }
+
       public void Dispose()
       {
          _kafkaProducer.Dispose();
