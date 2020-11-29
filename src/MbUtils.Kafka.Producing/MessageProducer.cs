@@ -2,20 +2,31 @@
 using System.Threading.Tasks;
 using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace MbUtils.Kafka.Producing
 {
+   public class MessageProducerConfig
+   {
+      public string BootstrapServers { get; set; }
+   }
+
    public class MessageProducer<TValue> : IMessageProducer
    {
       private readonly IProducer<Null, TValue> _kafkaProducer;
       private readonly IMessageCreator<TValue> _messageCreator;
       protected readonly ILogger _logger;
 
-      public MessageProducer(IProducer<Null, TValue> kafkaProducer, IMessageCreator<TValue> messageCreator, ILogger logger)
+      public MessageProducer(IProducerFactory<TValue> producerFactory, IMessageCreator<TValue> messageCreator, ILogger<MessageProducer<TValue>> logger)
       {
-         _kafkaProducer = kafkaProducer ?? throw new ArgumentNullException(nameof(kafkaProducer));
+         if (producerFactory is null)
+         {
+            throw new ArgumentNullException(nameof(producerFactory));
+         }
+
          _messageCreator = messageCreator ?? throw new ArgumentNullException(nameof(messageCreator));
          _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+         _kafkaProducer = producerFactory.Build();
       }
 
       public async Task ProduceAsync(string topic, object body)
